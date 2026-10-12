@@ -225,7 +225,7 @@ function badgeClass(t: TaskItem) {
       </section>
 
       <!-- 最后一行：两件"说明"并排。它们本来就不必各占一整行。 -->
-      <section class="ledger__row ledger__row--wide">
+      <section class="ledger__row ledger__row--rail">
         <p class="ledger__label">变化与支持</p>
         <div class="ledger__body ledger__body--pair">
           <div>

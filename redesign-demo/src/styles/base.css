@@ -1717,3 +1717,11 @@ html.is-skin-switching *::after {
     grid-template-columns: minmax(0, 1fr);
   }
 }
+
+/* 右栏里的"变化与支持"：它原本是并排两栏的内容，384px 放不下，改成上下叠。
+   于是右栏是一列连贯的"状态与支持"，不会半截空着。 */
+.ledger--rail > .ledger__row--rail .ledger__body--pair,
+.ledger--rail > .ledger__row--rail .ledger__body--cols2,
+.ledger--rail > .ledger__row--rail .ledger__body--cols3 {
+  grid-template-columns: minmax(0, 1fr);
+}
