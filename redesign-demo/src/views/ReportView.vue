@@ -180,7 +180,19 @@ const previous = computed(() => demo.use.previousDirection.value)
       </div>
     </header>
 
-    <GuideNote gkey="report" :text="GUIDES.report" to="/path" to-label="看要做的取舍" />
+    <!-- 入口：放在页头正下方第一位 -->
+    <GuideNote
+      gkey="report"
+      :text="GUIDES.report"
+      :steps="[
+        '先读「这一版的结论」—— 一句话说清你现在卡在哪',
+        '再看「离门槛差几分」：差几分、先补哪一项',
+        '三个分区点着看，每条都能展开依据',
+      ]"
+      :contents="['这一版的结论', '离门槛差几分', '你是什么样的人', '三个分区', '三条方向的取舍', '影响面']"
+      to="/path"
+      to-label="看要做的取舍"
+    />
 
     <article class="article">
       <!--

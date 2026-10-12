@@ -157,6 +157,20 @@ const ring = computed(() => {
       </p>
     </header>
 
+    <!-- 入口：放在页头正下方第一位 -->
+    <GuideNote
+      gkey="profile"
+      :text="GUIDES.profile"
+      :steps="[
+        '先看左边：三层来源，共 12 条 —— 哪来的、准不准都标了',
+        '点一条，右边看它的依据与把握程度',
+        '看「还差 3 条」：缺的口子在哪、去哪补',
+      ]"
+      :contents="['学校系统里的事实', '三层来源的 12 条', '还差 3 条', '采集动线', '核验学籍']"
+      to="/chat"
+      to-label="去聊两句"
+    />
+
     <article class="wb">
       <!-- ① 顶部一条带：左 = 进度环 + 三个计数，右 = 学校系统里的事实。
            两块并排而不是上下叠 —— 客户要的是"用满横向、少滚动"。
@@ -353,7 +367,7 @@ const ring = computed(() => {
       </section>
     </article>
 
-    <GuideNote gkey="profile" :text="GUIDES.profile" to="/chat" to-label="去聊两句" />
+
   </div>
 </template>
 

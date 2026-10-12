@@ -134,6 +134,20 @@ const overridden = computed(
       </div>
     </header>
 
+    <!-- 入口：放在页头正下方第一位 -->
+    <GuideNote
+      gkey="review"
+      :text="GUIDES.review"
+      :steps="[
+        '先看「这一周你动过多少手」—— 做成的先摆出来',
+        '左边点一条，右边是它的结果与归因',
+        '没做成的那件，在右边选一个归因：任务 · 方法 · 方向（不归到人）',
+      ]"
+      :contents="['你做到了什么', '这一周的时间线', '归因', '两种说法', '收起参数']"
+      to="/home"
+      to-label="回任务与计划"
+    />
+
     <article class="article">
       <!-- 紧凑统计条：这一周的四个数，摆在首屏最上面 -->
       <section class="sec">
@@ -311,7 +325,7 @@ const overridden = computed(
       </section>
     </article>
 
-    <GuideNote gkey="review" :text="GUIDES.review" to="/home" to-label="回任务与计划" />
+
   </div>
 </template>
 

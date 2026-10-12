@@ -65,6 +65,20 @@ function badgeClass(t: TaskItem) {
       </div>
     </header>
 
+    <!-- 入口：放在页头正下方第一位。三步的用词全部取自这一页真有的分区名。 -->
+    <GuideNote
+      gkey="home"
+      :text="GUIDES.home"
+      :steps="[
+        '看「今天这一件」—— 今天唯一要做的事',
+        '往下扫三组任务：现在要做的 · 等着的 · 已经做完的',
+        '做不动就点「太大，改小」—— 回退是设计好的',
+      ]"
+      :contents="['今天这一件', '现在要做的', '等着的', '已经做完的', '学生档案', '变化与支持']"
+      to="/plan"
+      to-label="看完整计划"
+    />
+
     <div class="ledger">
       <!-- 紧凑统计条（2026-10-12 新加）：这一屏"有几个什么"摊在一条线上，一眼看完，
            不用往下滚。它刻意不做成"大数字 + 强调色"的 hero metric ——
@@ -243,7 +257,7 @@ function badgeClass(t: TaskItem) {
       </section>
     </div>
 
-    <GuideNote gkey="home" :text="GUIDES.home" to="/plan" to-label="看完整计划" />
+
   </div>
 </template>
 

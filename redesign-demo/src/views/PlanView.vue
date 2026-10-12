@@ -157,6 +157,20 @@ function onTabKey(e: KeyboardEvent, i: number) {
       </div>
     </header>
 
+    <!-- 入口：放在页头正下方第一位 -->
+    <GuideNote
+      gkey="plan"
+      :text="GUIDES.plan"
+      :steps="[
+        '先看月历：点某一天，右边就是那天的事',
+        '再对「阶段里程碑」与「本周要做的」—— 两条线在同一屏',
+        '「两本账」分清哪些是你自己写的、哪些是计划拆下来的',
+      ]"
+      :contents="['月历', '阶段里程碑', '本周要做的', '两本账', '做不动的时候']"
+      to="/review"
+      to-label="去复盘记录"
+    />
+
     <div class="ledger">
       <!-- 紧凑统计条：这一页的几个数，摆在最上面 -->
       <section class="ledger__row">
@@ -394,7 +408,7 @@ function onTabKey(e: KeyboardEvent, i: number) {
         </div>
       </section>
 
-      <GuideNote gkey="plan" :text="GUIDES.plan" to="/review" to-label="去复盘记录" />
+
     </div>
   </div>
 </template>
