@@ -540,6 +540,86 @@ const sourceNote = computed(
         </div>
       </section>
 
+      <!-- 十一、密度与版面语法（2026-10-12 加） -->
+      <section class="block">
+        <h2 class="block__title">十一、密度与版面语法</h2>
+        <p class="note">
+          客户的原话是「<strong>太空了</strong>，而且<strong>过于偏向上下滚动看信息</strong>」。
+          依据（NN/g）：首屏 <strong>57%</strong>、前两屏 <strong>74%</strong> 的注意力 ——
+          第三屏之后基本没人看；而且"现在的网页普遍<strong>太稀</strong>，屏面不该攒着不用"。
+          所以口径是：<strong>一屏装下更多、用满横向</strong>，而不是"再干净一点"。
+        </p>
+
+        <h3 class="t-h3" style="margin-top: var(--sp-5)">三种页面语法（内页只许这三种）</h3>
+        <table class="table">
+          <thead>
+            <tr>
+              <th style="width: 170px">语法</th>
+              <th>用在哪</th>
+              <th>结构</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="t-mono">账页 .ledger</td>
+              <td>任务与计划 / 计划与行动</td>
+              <td>左侧 132px 标签格（这一行是什么 + 计数）+ 内容 + 行尾动作</td>
+            </tr>
+            <tr>
+              <td class="t-mono">文章页 .article / .sec</td>
+              <td>评估报告 / 复盘记录</td>
+              <td>节与节；节标题写成<strong>一句判断</strong>（"这一周你动过 50% 的手"），不是名词</td>
+            </tr>
+            <tr>
+              <td class="t-mono">档案页 .article + 属性条</td>
+              <td>学生档案</td>
+              <td>&lt;dl&gt; 属性条 + 按来源分节的证据流</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3 class="t-h3" style="margin-top: var(--sp-5)">密度：只动高度与内距，不动字号</h3>
+        <table class="table">
+          <thead>
+            <tr>
+              <th style="width: 210px">项</th>
+              <th>口径</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>行高档 <span class="t-mono">--row-h</span></td>
+              <td>极简 <strong>40</strong> / 柔和 <strong>48</strong> / 紧凑 <strong>32</strong>（跟着皮肤第三轴走）</td>
+            </tr>
+            <tr>
+              <td>字号</td>
+              <td><strong>不随密度变</strong> —— 缩字号是拿可读性换密度，不该由皮肤承担</td>
+            </tr>
+            <tr>
+              <td>紧凑统计条 <span class="t-mono">.tally</span></td>
+              <td>一排 <strong>3–5</strong> 个"值 + 名称"：值 20px/600、无强调色、无独立卡片</td>
+            </tr>
+            <tr>
+              <td>数据表</td>
+              <td>表头 <span class="t-mono">position: sticky</span>；数字列右对齐；<strong>中文可见列 ≤4</strong></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3 class="t-h3" style="margin-top: var(--sp-5)">三条硬口径（可验收）</h3>
+        <p class="note">
+          <strong>一屏只许一个 hero</strong>：大号元素 ≤2。一排统计 tile 属于"多值可比"，
+          必须左对齐排成条；只有一个值时才居中放大。<br />
+          <strong>首屏必须装下这一页的主要结论与主要操作</strong> —— 关键结论落到第三屏之后等于没写。<br />
+          <strong>关键内容不许藏进折叠</strong>：披露层级 ≤2（旧索引栏算第一层）。
+        </p>
+        <p class="note">
+          来源：NN/g《Utilize Available Screen Space》《Scrolling and Attention》、
+          Grafana Stat（多值左对齐）、Carbon data-table 源码（sticky 表头）、
+          Material density（密度只动高度，刻度固定 4px）。
+        </p>
+      </section>
+
       <footer class="spec__foot">
         <p class="t-note">
           参考来源：**河北大学校徽**的蓝（量自校徽图，见上）、河北大学门户的红（hbu.edu.cn）、
