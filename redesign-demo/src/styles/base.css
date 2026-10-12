@@ -1692,6 +1692,10 @@ html.is-skin-switching *::after {
   grid-template-columns: minmax(0, 1fr) 384px;
   column-gap: var(--sp-7);
   align-items: start;
+  /* 【2026-10-12】必须是 dense：默认稀疏流沿游标往**下**找空位，
+     于是右栏那两行被挤到第 4、5 行 —— 右栏中段一片空。
+     dense 让它们回填顶部空位，右栏才是连贯的一列。 */
+  grid-auto-flow: row dense;
 }
 
 .ledger--rail > .ledger__row {
