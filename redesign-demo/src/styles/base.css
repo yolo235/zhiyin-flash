@@ -1677,3 +1677,43 @@ html.is-skin-switching *::after {
     grid-column: 1;
   }
 }
+
+/* ===========================================================================
+   两区账页（.ledger--rail）
+   ---------------------------------------------------------------------------
+   客户：「上下左右都有信息，用户不知道如何使用。」
+   单栏通宽时，每行要横跨 1520px 才能读完 —— 左侧标签在 x=215，动作在 x=1450。
+   这里把它变成两区：左栏是清单，右栏是**常驻状态**（计数、进度）。
+   两区，一条从上到下的阅读顺序，眼睛不再左右横跳。
+   末行用 --wide 通栏（它本身就是并排两栏的内容，塞进 384px 会挤坏）。
+   =========================================================================== */
+.ledger--rail {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 384px;
+  column-gap: var(--sp-7);
+  align-items: start;
+}
+
+.ledger--rail > .ledger__row {
+  grid-column: 1;
+}
+
+.ledger--rail > .ledger__row--rail {
+  grid-column: 2;
+}
+
+.ledger--rail > .ledger__row--wide {
+  grid-column: 1 / -1;
+}
+
+/* 右栏那几行不再拧成"标签 + 内容"三格，改成上下叠 —— 384px 里放不下三格 */
+.ledger--rail > .ledger__row--rail {
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--sp-2);
+}
+
+@media (max-width: 1080px) {
+  .ledger--rail {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

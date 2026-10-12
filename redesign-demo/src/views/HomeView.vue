@@ -79,11 +79,11 @@ function badgeClass(t: TaskItem) {
       to-label="看完整计划"
     />
 
-    <div class="ledger">
+    <div class="ledger ledger--rail">
       <!-- 紧凑统计条（2026-10-12 新加）：这一屏"有几个什么"摊在一条线上，一眼看完，
            不用往下滚。它刻意不做成"大数字 + 强调色"的 hero metric ——
            数字与正文同级、无强调色、无独立卡片。 -->
-      <section class="ledger__row">
+      <section class="ledger__row ledger__row--rail">
         <p class="ledger__label">这一屏</p>
         <div class="ledger__body">
           <div class="tally">
@@ -201,7 +201,7 @@ function badgeClass(t: TaskItem) {
       </section>
 
       <!-- 学生档案：进度不再是"第二列的一张卡"，而是账页里的一行 -->
-      <section class="ledger__row">
+      <section class="ledger__row ledger__row--rail">
         <p class="ledger__label">学生档案 · {{ progress.known }}/{{ progress.total }}</p>
         <div class="ledger__body">
           <p class="progress__text">{{ partialCopy(progress.known, progress.gap) }}</p>
@@ -225,7 +225,7 @@ function badgeClass(t: TaskItem) {
       </section>
 
       <!-- 最后一行：两件"说明"并排。它们本来就不必各占一整行。 -->
-      <section class="ledger__row">
+      <section class="ledger__row ledger__row--wide">
         <p class="ledger__label">变化与支持</p>
         <div class="ledger__body ledger__body--pair">
           <div>
@@ -386,5 +386,12 @@ function badgeClass(t: TaskItem) {
 .mini__row dd {
   margin: 0;
   font-weight: var(--fw-medium);
+}
+
+/* 【2026-10-12】列表行不再横跨整个版心：内容 + 它的动作收在 52em 内，
+   眼睛不用横跨 1200px 去够最右边那个按钮。右边那 384px 由常驻状态栏占用，
+   不是留白 —— 所以没有回到"太空"。 */
+.task {
+  max-width: 52em;
 }
 </style>
