@@ -22,49 +22,49 @@ const PATH = [
   {
     step: '门户 · 开始咨询',
     view: '门户',
-    shot: 'v7-portal.jpg',
+    shot: 'v10-portal.jpg',
     what: '门户展示服务说明、咨询示例和主要入口。',
     where: '点击主要入口或登录后直接进入咨询对话。',
   },
   {
     step: '对话 · 选择主题并补充信息',
     view: '对话',
-    shot: 'v7-chat.jpg',
+    shot: 'v10-chat.jpg',
     what: '选择咨询主题或输入问题；材料、个人画像和成果按需查看。',
     where: '顾问交接显示接手人、原因与依据；长对话可返回最新消息。',
   },
   {
     step: '个人画像 · 查看信息来源与待补充项',
     view: '个人画像',
-    shot: 'v7-profile.jpg',
+    shot: 'v10-profile.jpg',
     what: '按主题查看个人信息，用来源筛选和展开条目核对依据。',
     where: '待补充项与资料获取限制分别说明，已有信息支持更正。',
   },
   {
     step: '诊断报告 · 查看结果与支持依据',
     view: '诊断报告',
-    shot: 'v7-report.jpg',
+    shot: 'v10-report.jpg',
     what: '先看诊断结果与关键依据，再按章节核对分析和分值。',
     where: '版本选择进入历史记录，方向方案通过二级菜单独立访问。',
   },
   {
     step: '方向方案 · 比较并选择',
     view: '方向方案',
-    shot: 'v7-directions.jpg',
+    shot: 'v10-directions.jpg',
     what: '逐项比较三个方向的依据与风险，选定候选后统一确认。',
     where: '改选后当场列出关联内容。本演示展示影响范围，尚未接入真实自动重算。',
   },
   {
     step: '计划与行动 · 执行当前任务',
     view: '行动计划',
-    shot: 'v7-home.jpg',
+    shot: 'v10-home.jpg',
     what: '优先任务突出当前行动，状态分组与执行概览同步更新。',
     where: '任务支持完成、恢复与拆分，保留来源和执行依据。',
   },
   {
     step: '复盘记录 · 分析执行与调整',
     view: '复盘记录',
-    shot: 'v7-review.jpg',
+    shot: 'v10-review.jpg',
     what: '结合执行时间线分析任务负担、方法和方向问题。',
     where: '依据归因查看调整建议，可添加任务或重新比较方向。',
   },
@@ -107,8 +107,8 @@ function onError(shot: string) {
     <section class="card card--pad detail" style="margin-top: var(--sp-5)">
       <div class="hstack hstack-3 between wrap">
         <div>
-          <span class="chip chip--primary">{{ active.grade }}的使用场景</span>
-          <h2 class="detail__title">{{ active.focus }}</h2>
+
+          <h2 class="detail__title">{{ active.grade }} · {{ active.focus }}</h2>
           <p class="detail__sit">{{ active.situation }}</p>
         </div>
         <div class="detail__next">

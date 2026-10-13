@@ -30,12 +30,12 @@ const themeOptions: { id: ThemeMode; label: string }[] = [
 ]
 
 const accentOptions: { id: Accent; label: string; hint: string }[] = [
-  { id: 'blue', label: '河大蓝', hint: '蓝做主色，红只作提醒' },
-  { id: 'red', label: '河大红', hint: '校色红做主色，蓝退为信息色' },
+  { id: 'blue', label: '校徽蓝', hint: '默认主色 · 白灰导航与内容底'  },
+  { id: 'red', label: '官网红', hint: '切换强调色 · 保持白灰底'  },
 ]
 
 const styleOptions: { id: StyleId; label: string; hint: string }[] = [
-  { id: 'plain', label: '极简', hint: '小圆角、无阴影、1px 描边' },
+  { id: 'plain', label: '极简', hint: '清晰结构与标准间距' },
   { id: 'soft', label: '柔和', hint: '大圆角、轻影、更松的内距' },
   { id: 'dense', label: '紧凑', hint: '更小圆角与内距，一屏多看几条' },
 ]

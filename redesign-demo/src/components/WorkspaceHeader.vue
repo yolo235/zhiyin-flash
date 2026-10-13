@@ -31,6 +31,7 @@ function signOut() {
     <div v-if="desktop" class="desk-location"><button v-if="navigation.sidebarCollapsed.value" ref="expandButton" class="ws-icon-button" aria-label="展开侧栏" title="展开侧栏" aria-controls="student-desktop-sidebar" aria-expanded="false" @click="emit('expandSidebar')"><UiIcon name="sidebar" /></button><span>学生空间 · {{ backendDemo.state.dataMode==='demo'?'演示数据':'服务数据' }}</span><span aria-hidden="true">/</span><strong>{{ groupLabel }}</strong></div>
     <RouterLink v-else class="ws-brand" to="/chat" aria-label="职引，回到对话"><span class="ws-brand__mark" /><strong>职引</strong></RouterLink>
     <div class="ws-topbar__tools">
+      <button class="studio-data-source" aria-label="数据来源与演示设置" @click="accountOpen=true">{{ backendDemo.state.dataMode==='demo'?'演示':'服务' }}</button>
       <button class="ws-icon-button ws-search" aria-label="搜索与跳转" title="搜索与跳转（Ctrl + K）" @click="emit('openPalette')"><UiIcon name="search" /></button>
       <SkinSwitcher />
       <button class="ws-icon-button ws-inbox-trigger" :aria-label="'提醒，' + demo.state.noticeQueue.length + ' 条待处理'" @click="demo.openNotice()"><UiIcon name="bell" :size="18" /><span v-if="demo.state.noticeQueue.length">{{ demo.state.noticeQueue.length }}</span></button>

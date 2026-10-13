@@ -2,12 +2,16 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import { router } from './router'
 import './styles/tokens.css'
+import './styles/heading-font.css'
 import './styles/base.css'
 import './styles/workspace.css'
 import './styles/experience.css'
 import './styles/journey.css'
-import './styles/dialogue.css'
 import './styles/redesign.css'
+import './styles/studio.css'
+import './styles/business-studio.css'
+import './styles/conversation-studio.css'
+import './styles/source-workspace.css'
 
 const app = createApp(App)
 

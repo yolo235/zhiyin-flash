@@ -9,7 +9,9 @@ import TodoSuggestions from '../components/TodoSuggestions.vue'
 import InfoSheet from '../components/InfoSheet.vue'
 import { backendClient } from '../api/backend-client'
 import type { NoteView } from '../api/backend-types'
-const tab = ref<'todo'|'goal'>('todo'), drafts = ref({todo:'',goal:''}), error=ref(''), status=ref('')
+import { demo } from '../store'
+import { noteDrafts } from '../lib/workspace-drafts'
+const tab = ref<'todo'|'goal'>('todo'), drafts = computed(() => noteDrafts(demo.state.account)), error=ref(''), status=ref('')
 const deleting=ref<NoteView|null>(null),busy=ref(false),deleteError=ref('')
 async function loadNotes(){if(busy.value)return;busy.value=true;error.value='';try{const notes=await backendClient.notes();if(!Array.isArray(notes))throw new Error('Incomplete notes');backendDemo.setNotes(notes);status.value='已读取最新个人记录。'}catch{error.value='最新记录没有取得，请重试。现有条目和输入仍保留。'}finally{busy.value=false}}
 async function setDone(item: NoteView,done:boolean){if(busy.value)return;if(!backendDemo.state.liveNoteIds.includes(item.id)){backendDemo.setNoteDone(item.id,done);return}busy.value=true;error.value='';try{const result=await backendClient.noteDone(item.id,done);backendDemo.upsertNote(result);status.value='记录状态已保存。'}catch{error.value='记录状态没有保存成功，请重试。原状态仍保留。'}finally{busy.value=false}}

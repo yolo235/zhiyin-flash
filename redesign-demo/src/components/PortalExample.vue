@@ -29,7 +29,7 @@ function next() { stage.value = (stage.value + 1) % phases.length }
           <template v-if="stage === 0">
             <p class="pe-phase__label">你可以这样开口</p>
             <blockquote class="pe-question">{{ opening.text.split('。')[0] }}。</blockquote>
-            <div class="pe-answer"><p class="pe-phase__label">了解你情况的人</p><p>{{ question.text.split(' —— ')[1] ?? question.text }}</p></div>
+            <div class="pe-answer"><span class="pe-host-mark" aria-hidden="true">引</span><p class="pe-phase__label">了解你情况的人</p><p>{{ question.text.split(' —— ')[1] ?? question.text }}</p></div>
             <p class="pe-phase__note">不需要先想好答案。一次只问一个问题。</p>
           </template>
           <template v-else-if="stage === 1">

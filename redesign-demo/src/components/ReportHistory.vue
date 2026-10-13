@@ -1,8 +1,11 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { backendClient } from '../api/backend-client'
+import { PROFILE_FIELDS } from '../data/student'
+import { backendDemo } from '../lib/backend-demo'
 import type { AssetVersionView, ReportFullTextView } from '../api/backend-types'
 defineEmits<{ open: [report: ReportFullTextView, metadata: AssetVersionView | null] }>()
+function fieldLabel(key:string){return backendDemo.state.liveWorkspace?.profile_panel?.fields?.find(f=>f.key===key)?.label ?? PROFILE_FIELDS.find(f=>f.key===key)?.label ?? '补充信息'}
 const versions = ref<AssetVersionView[] | null>(null), busy = ref(false), error = ref(''), reading = ref<number | null>(null)
 async function load() {
   if (busy.value) return
@@ -19,4 +22,4 @@ async function read(version: number, emit: (event: 'open', report: ReportFullTex
   finally { reading.value = null }
 }
 </script>
-<template><section class="report-history-live"><div class="ws-section-head"><h2>完整版本与更新状态</h2><button class="btn" :disabled="busy||reading!==null" @click="load">{{ busy?'正在读取…':'读取版本记录' }}</button></div><p v-if="error" class="ws-field-error" role="alert">{{ error }}</p><template v-if="versions"><article v-for="v in versions" :key="v.asset_id+'-'+v.version" class="history-entry"><div class="ws-section-head"><h3>第{{ v.version }}版</h3><span class="ws-attention" v-if="v.needs_recompute">待更新</span><span class="ws-muted" v-else>当前记录无需重算</span></div><time>{{ new Date(v.created_at).toLocaleString('zh-CN') }}</time><p class="ws-section">{{ v.diff_from_previous || '本版没有提供差异摘要。' }}</p><p v-if="v.depends_on_profile_keys?.length" class="ws-muted">依赖的个人信息：{{ v.depends_on_profile_keys.join('、') }}</p><p v-if="v.needs_recompute" class="ws-attention">依据已有变化，阅读这版时请同时核对最新个人信息。</p><button class="btn ws-section" :disabled="reading!==null" @click="read(v.version,$emit)">{{ reading===v.version?'正在读取…':'阅读第'+v.version+'版完整正文' }}</button></article><p v-if="!versions.length" class="ws-empty">尚无已保存的报告版本。</p></template><p v-else class="ws-muted ws-section">按所选数据来源读取完整正文、生成时间、依赖信息和待更新标记。演示模式提供三版虚构报告。</p></section></template>
+<template><section class="report-history-live"><div class="ws-section-head"><h2>完整版本与更新状态</h2><button class="btn" :disabled="busy||reading!==null" @click="load">{{ busy?'正在读取…':'读取版本记录' }}</button></div><p v-if="error" class="ws-field-error" role="alert">{{ error }}</p><template v-if="versions"><article v-for="v in versions" :key="v.asset_id+'-'+v.version" class="history-entry"><div class="ws-section-head"><h3>第{{ v.version }}版</h3><span class="ws-attention" v-if="v.needs_recompute">待更新</span><span class="ws-muted" v-else>当前记录无需重算</span></div><time>{{ new Date(v.created_at).toLocaleString('zh-CN') }}</time><p class="ws-section">{{ v.diff_from_previous || '本版没有提供差异摘要。' }}</p><p v-if="v.depends_on_profile_keys?.length" class="ws-muted">依赖的个人信息：{{ v.depends_on_profile_keys.map(fieldLabel).join('、') }}</p><p v-if="v.needs_recompute" class="ws-attention">依据已有变化，阅读这版时请同时核对最新个人信息。</p><button class="btn ws-section" :disabled="reading!==null" @click="read(v.version,$emit)">{{ reading===v.version?'正在读取…':'阅读第'+v.version+'版完整正文' }}</button></article><p v-if="!versions.length" class="ws-empty">尚无已保存的报告版本。</p></template><p v-else class="ws-muted ws-section">按所选数据来源读取完整正文、生成时间、依赖信息和待更新标记。演示模式提供三版虚构报告。</p></section></template>

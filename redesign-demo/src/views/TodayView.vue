@@ -3,6 +3,7 @@ import { computed, ref } from 'vue'
 import { demo } from '../store'
 import PageHeading from '../components/PageHeading.vue'
 import ActionPlanNav from '../components/ActionPlanNav.vue'
+import PlanJourney from '../components/PlanJourney.vue'
 import LiveActionPlan from '../components/LiveActionPlan.vue'
 import TaskBrief from '../components/TaskBrief.vue'
 import { backendDemo } from '../lib/backend-demo'
@@ -35,13 +36,13 @@ function add() {
 <template>
   <div class="ws-page journey-page">
     <PageHeading title="行动计划" description="从一件具体的小事开始，让想好的方向往前走。"><RouterLink class="btn" to="/notes"><UiIcon name="plus" :size="16" />添加个人待办</RouterLink></PageHeading>
-    <ActionPlanNav/><AssetNotice/><LiveActionPlan today/><TaskBrief/><template v-if="!backendDemo.state.liveAction">
+    <ActionPlanNav/><AssetNotice/><template v-if="!backendDemo.state.liveAction">
     <section v-if="lastDone" :key="lastDone.id" class="journey-complete" role="status">
       <span class="journey-complete__mark"><UiIcon name="check" :size="24" /></span>
       <div><h2>又完成了一步</h2><p>{{ lastDone.title }}</p></div>
       <button class="ws-text-button" @click="demo.reopenTask(lastDone.id)">恢复任务</button>
     </section>
-    <section v-if="smallest" class="journey-focus">
+    <div class="studio-execution"><section v-if="smallest" class="journey-focus">
       <div class="journey-focus__copy">
         <h2>{{ smallest.title }}</h2><p>{{ smallest.why }}</p>
         <div class="journey-focus__meta"><span><UiIcon name="review" :size="17" />约 {{ smallest.minutes }} 分钟</span><span><UiIcon name="action" :size="17" />{{ taskOriginLabel(smallest.origin) }}</span><span v-if="smallest.due"><UiIcon name="calendar" :size="17" />{{ smallest.due }}</span></div>
@@ -49,7 +50,7 @@ function add() {
       </div>
     </section>
     <section v-else class="ws-paper"><div class="ws-empty"><h2 class="ws-section-title">{{ demo.use.done.value.length ? '当前任务已完成' : '暂无行动任务' }}</h2><p>完成咨询并明确方向后，可生成行动任务。</p><RouterLink class="btn btn--primary" to="/chat">开始咨询</RouterLink></div></section>
-    <div class="journey-action-grid">
+    <PlanJourney/></div><LiveActionPlan today/><TaskBrief/><div class="journey-action-grid">
       <section class="ws-paper journey-task-list">
         <div class="ws-section-head"><h2>执行队列</h2><span class="ws-muted">按状态查看</span></div>
         <PanelTabs v-model="group" label="任务分组" :items="groups.map(g => ({ key: g.key, label: g.label, count: g.items.length }))"><TaskList :items="active.items.filter(t => group !== 'now' || t.id !== smallest?.id)" :mode="group" /></PanelTabs>

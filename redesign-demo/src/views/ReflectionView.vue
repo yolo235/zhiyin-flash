@@ -10,6 +10,8 @@ import { useRoute } from 'vue-router'
 import { attributionLabel } from '../lib/presentation'
 import { consultantLabel } from '../lib/consultant'
 const route = useRoute()
+const reviewForm=ref<HTMLElement|null>(null)
+function startReview(){reviewForm.value?.scrollIntoView({block:'start',behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'});reviewForm.value?.focus({preventScroll:true})}
 const achievementView = computed(() => route.query.view === 'achievements')
 const items = computed<ReviewItem[]>(() => [
   ...demo.use.done.value.filter((t) => t.doneAt === '刚刚').map((t) => ({ id: 'done-' + t.id, when: '刚刚', what: t.title, result: 'done' as const })),
@@ -31,15 +33,15 @@ function nextStep() {
 }
 </script>
 <template>
-  <div class="ws-page">
-    <PageHeading title="复盘与记录" :description="achievementView ? '记录已完成的关键行动，展示阶段成果。' : demo.use.scenario.value.grade + ' · ' + demo.use.scenario.value.reviewFocus"><RouterLink class="btn" to="/home">回到今日行动<UiIcon name="arrow" :size="16" /></RouterLink></PageHeading>
+  <div class="ws-page review-page">
+    <PageHeading title="复盘与记录" :description="achievementView ? '记录已完成的关键行动，展示阶段成果。' : demo.use.scenario.value.grade + ' · ' + demo.use.scenario.value.reviewFocus"><button v-if="missed&&!achievementView" class="btn btn--primary" @click="startReview">复盘这件事<UiIcon name="notes" :size="16"/></button><RouterLink class="btn" to="/home">回到今日行动<UiIcon name="arrow" :size="16" /></RouterLink></PageHeading>
     <nav class="desk-section-nav" aria-label="复盘视图"><RouterLink to="/review" :aria-current="!achievementView ? 'page' : undefined">推进与复盘</RouterLink><RouterLink to="/review?view=achievements" :aria-current="achievementView ? 'page' : undefined">完成记录</RouterLink></nav>
     <AchievementsSection v-if="achievementView" />
     <template v-else>
     <div class="ws-review-summary"><span><strong>{{ completed.length }}</strong>件已完成</span><span><strong>{{ partial.length }}</strong>件部分完成</span><span><strong>{{ items.filter((r) => r.result === 'missed').length }}</strong>件待复盘</span></div>
-    <section class="ws-paper ws-section"><div class="ws-section-head"><div><h2>执行时间线</h2><p>只记录事实与时间，完成状态可以在今日任务里恢复。</p></div></div><ol v-if="items.length" class="ws-timeline"><li v-for="r in items" :key="r.id"><time>{{ r.when }}</time><div class="ws-timeline__content">{{ r.what }}<small v-if="demo.state.reviewAttributions[r.id] ?? r.attribution">原因：{{ attributionLabel(demo.state.reviewAttributions[r.id] ?? r.attribution) }}</small><p v-if="demo.state.reviewNotes[r.id]" class="review-note">{{ demo.state.reviewNotes[r.id] }}</p></div><span class="ws-timeline__state">{{ labels[r.result] }}</span></li></ol><p v-else class="ws-muted">完成一件事，就会留下第一条记录。</p></section>
-    <div class="ws-two-columns">
-      <section class="ws-paper">
+    <section class="ws-paper ws-section review-timeline"><div class="ws-section-head"><div><h2>执行时间线</h2><p>只记录事实与时间，完成状态可以在今日任务里恢复。</p></div></div><ol v-if="items.length" class="ws-timeline"><li v-for="r in items" :key="r.id"><time>{{ r.when }}</time><div class="ws-timeline__content">{{ r.what }}<small v-if="demo.state.reviewAttributions[r.id] ?? r.attribution">原因：{{ attributionLabel(demo.state.reviewAttributions[r.id] ?? r.attribution) }}</small><p v-if="demo.state.reviewNotes[r.id]" class="review-note">{{ demo.state.reviewNotes[r.id] }}</p></div><span class="ws-timeline__state">{{ labels[r.result] }}</span></li></ol><p v-else class="ws-muted">完成一件事，就会留下第一条记录。</p></section>
+    <div class="ws-two-columns review-workspace">
+      <section id="review-current-action" ref="reviewForm" tabindex="-1" class="ws-paper review-form">
         <template v-if="missed"><h2 class="ws-section-title">未完成任务分析</h2><p style="margin-top: var(--sp-4)">待复盘任务：「{{ missed.what }}」。</p><p class="ws-muted" style="margin-top: var(--sp-2)">请选择影响执行的主要原因，查看调整建议。</p><fieldset class="ws-attributions review-choices"><legend class="sr-only">复盘归因</legend><label v-for="a in choices" :key="a" :class="{'review-choice--on': choice === a}"><input type="radio" name="review-reason" :checked="choice === a" @change="demo.setReviewAttribution(missed.id, a)" />{{ attributionLabel(a) }}</label></fieldset><form class="ws-section" @submit.prevent="saveNote"><label class="ws-field">补充实际情况<textarea v-model="reviewNote" maxlength="500" rows="3" placeholder="发生了什么、试过什么，或者还不确定的原因…"/></label><button class="btn" type="submit">保存复盘说明</button><p v-if="noteStatus" role="status" class="desk-status">{{ noteStatus }}</p></form><p v-if="!choice" class="ws-muted ws-section">还没有确认原因。也可以先和顾问讨论，再决定怎样调整。</p><div v-if="choice" class="ws-review-result" aria-live="polite"><p>{{ explanation }}</p><div class="ws-inline-actions"><RouterLink v-if="choice === '方向要重估'" class="btn btn--primary" to="/directions">重新比较方向<UiIcon name="arrow" :size="16" /></RouterLink><button v-else-if="choice==='任务太大'||choice==='方法不对'" class="btn btn--primary" @click="nextStep">添加调整任务<UiIcon name="arrow" :size="16" /></button><RouterLink class="ws-text-link" :to="'/chat?question='+encodeURIComponent('我想复盘：'+missed.what+'。'+reviewNote)">咨询调整方案</RouterLink></div></div></template>
         <div v-else class="ws-empty"><h2 class="ws-section-title">{{ completed.length ? '当前没有待复盘任务' : '暂无执行记录' }}</h2><p>完成行动任务后，可在此查看执行记录与复盘建议。</p><RouterLink class="btn btn--primary" to="/home">查看当前任务</RouterLink></div>
       </section>

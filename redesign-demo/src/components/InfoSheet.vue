@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { nextTick, onMounted, ref, watch } from 'vue'
+import { computed, nextTick, onMounted, ref, watch } from 'vue'
 import UiIcon from './UiIcon.vue'
-const props = defineProps<{ open: boolean; title: string; wide?: boolean; inspector?: boolean }>()
+const props = defineProps<{ open: boolean; title: string; wide?: boolean; inspector?: boolean; variant?: 'read'|'edit'|'confirm'|'import' }>()
+const variant=computed(()=>props.variant??(/更正/.test(props.title)?'edit':/导入/.test(props.title)?'import':/删除|撤回|确认/.test(props.title)?'confirm':'read'))
 const emit = defineEmits<{ close: []; opened: [] }>()
 const el = ref<HTMLDialogElement | null>(null)
 async function sync() {
@@ -23,7 +24,7 @@ function trapTab(event: KeyboardEvent) {
 }
 </script>
 <template>
-  <dialog ref="el" class="ws-sheet" :class="{ 'ws-sheet--wide': wide, 'ws-sheet--inspector': inspector }" :aria-label="title" @keydown="trapTab" @cancel.prevent="emit('close')" @click="($event.target === el) && emit('close')">
+  <dialog ref="el" class="ws-sheet" :class="{ 'ws-sheet--wide': wide, 'ws-sheet--inspector': inspector, ['ws-sheet--'+variant]:true }" :aria-label="title" @keydown="trapTab" @cancel.prevent="emit('close')" @click="($event.target === el) && emit('close')">
     <div class="ws-sheet__inner">
       <header class="ws-sheet__head"><h2>{{ title }}</h2><button class="ws-icon-button" aria-label="关闭面板" @click="emit('close')"><UiIcon name="close" /></button></header>
       <div class="ws-sheet__body"><slot /></div>

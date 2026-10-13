@@ -112,9 +112,9 @@ const AXES = [
   {
     axis: '主色',
     attr: 'data-accent',
-    options: '河大蓝 / 河大红',
+    options: '校徽蓝 / 官网红',
     what: '--c-primary 一族 + 图表主序列 + 焦点环',
-    note: '红做主色时"注意"仍是红，但语法不同：主色是实心，注意是浅底 + 左侧竖线',
+    note: '红做主色时"注意"仍是红，但语法不同：主操作使用实心，注意事项使用说明、图标和浅底区分',
   },
   {
     axis: '风格',
@@ -177,6 +177,7 @@ const sourceNote = computed(
   () =>
     `本页色值直接从 :root 读取（当前 --blue-500 = ${t('--blue-500')}），所以它永远等于界面真实用色。`,
 )
+function jumpSpec(i:number){document.getElementById('spec-part-'+(i+1))?.scrollIntoView({block:'start',behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'})}
 </script>
 
 <template>
@@ -193,11 +194,12 @@ const sourceNote = computed(
       <h1 class="spec__title">设计规范</h1>
       <p class="spec__sub">
         重设计的全部视觉口径都在这里。三条硬约束：<strong>主色不超过 3 种</strong>（蓝 / 红 / 深灰）、
-        正文对比度 ≥ 4.5:1、组件里不出现任何颜色字面量。{{ sourceNote }}
+        默认校徽蓝，可切换官网红；白灰导航。正文对比度 ≥ 4.5:1。展示标题采用本地托管的 Noto Sans SC，正文保持16px。{{ sourceNote }}
       </p>
 
+      <nav class="studio-spec-index" aria-label="设计规范章节"><a v-for="(name,i) in ['品牌配色','灰阶','对比度','外观设置','动效','排版','间距与表面','组件','设计约束','信息层级']" :key="name" :href="'#spec-part-'+(i+1)" @click.prevent="jumpSpec(i)">{{ name }}</a></nav>
       <!-- 三支主色 -->
-      <section class="block">
+      <section class="block" id="spec-part-1">
         <h2 class="block__title">一、三支主色（就这三个）</h2>
         <div class="primaries">
           <article v-for="p in PRIMARY" :key="p.name" class="primary">
@@ -216,7 +218,7 @@ const sourceNote = computed(
       </section>
 
       <!-- 灰阶 -->
-      <section class="block">
+      <section class="block" id="spec-part-2">
         <h2 class="block__title">二、中性灰阶（承担 90% 的面积）</h2>
         <div class="spec-table-scroll"><table class="table">
           <thead>
@@ -239,7 +241,7 @@ const sourceNote = computed(
       </section>
 
       <!-- 对比度 -->
-      <section class="block">
+      <section class="block" id="spec-part-3">
         <h2 class="block__title">三、对比度硬线（这是"能不能用"的判据，不是审美）</h2>
         <div class="spec-table-scroll"><table class="table">
           <thead>
@@ -269,7 +271,7 @@ const sourceNote = computed(
       </section>
 
       <!-- 皮肤 -->
-      <section class="block">
+      <section class="block" id="spec-part-4">
         <h2 class="block__title">四、皮肤：三条轴，只换令牌不动结构</h2>
         <p class="note">
           顶栏右侧的「皮肤」按钮，或按 <span class="t-mono">⌘K</span> 搜"皮肤"。选择记在本地，
@@ -310,7 +312,7 @@ const sourceNote = computed(
       </section>
 
       <!-- 动效 -->
-      <section class="block">
+      <section class="block" id="spec-part-5">
         <h2 class="block__title">五、动效：只动"状态真的变了"的地方</h2>
         <p class="note">
           判据是<strong>频率</strong>：一天看几十次的东西不动（导航条、按钮、列表项自身）；
@@ -343,7 +345,7 @@ const sourceNote = computed(
       </section>
 
       <!-- 排版 -->
-      <section class="block">
+      <section class="block" id="spec-part-6">
         <h2 class="block__title">六、排版：六档字号，正文 16px</h2>
         <div class="spec-table-scroll"><table class="table">
           <thead>
@@ -373,7 +375,7 @@ const sourceNote = computed(
       </section>
 
       <!-- 间距与形 -->
-      <section class="block">
+      <section class="block" id="spec-part-7">
         <h2 class="block__title">七、间距、圆角、描边、阴影</h2>
         <div class="grid3">
           <div class="card card--pad">
@@ -406,7 +408,7 @@ const sourceNote = computed(
       </section>
 
       <!-- 零件 -->
-      <section class="block">
+      <section class="block" id="spec-part-8">
         <h2 class="block__title">八、零件（组件只允许用这些名字）</h2>
 
         <div class="parts">
@@ -494,7 +496,7 @@ const sourceNote = computed(
       </section>
 
       <!-- 不做的 -->
-      <section class="block">
+      <section class="block" id="spec-part-9">
         <h2 class="block__title">九、明确不做的（附理由，防止下一版又加回来）</h2>
         <div class="spec-table-scroll"><table class="table">
           <thead>
@@ -513,7 +515,7 @@ const sourceNote = computed(
       </section>
 
       <!-- 层级 -->
-      <section class="block">
+      <section class="block" id="spec-part-10">
         <h2 class="block__title">十、信息层级：一屏里怎么排</h2>
         <div class="hier">
           <div class="hier__item">
